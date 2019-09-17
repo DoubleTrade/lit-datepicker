@@ -16,22 +16,22 @@ class LitDatepickerCell extends LitElement {
         width: 38px;
         margin: 0;
         padding: 0;
-        color: var(--range-datepicker-cell-text);
+        color: var(--lit-datepicker-cell-text);
       }
 
       div:not(.disabled):hover {
-        background: var(--range-datepicker-cell-hover, #e4e7e7);
+        background: var(--lit-datepicker-cell-hover, #e4e7e7);
         cursor: pointer;
       }
 
       div.hovered {
-        background: var(--range-datepicker-cell-hovered, rgba(0, 150, 136, 0.5)) !important;
-        color: var(--range-datepicker-cell-hovered-text, white);
+        background: var(--lit-datepicker-cell-hovered, rgba(0, 150, 136, 0.5)) !important;
+        color: var(--lit-datepicker-cell-hovered-text, white);
       }
 
       div.selected {
-        background: var(--range-datepicker-cell-selected, rgb(0, 150, 136)) !important;
-        color: var(--range-datepicker-cell-selected-text, white);
+        background: var(--lit-datepicker-cell-selected, rgb(0, 150, 136)) !important;
+        color: var(--lit-datepicker-cell-selected-text, white);
         ;
       }
 
@@ -139,7 +139,7 @@ class LitDatepickerCell extends LitElement {
       if (
         day.date < min
         || day.date > max
-        || disabledDays.findIndex((disabledDay) => parseInt(disabledDay, 10) === day.date) !== -1
+        || disabledDays.findIndex(disabledDay => parseInt(disabledDay, 10) === day.date) !== -1
       ) {
         this.disabled = true;
         return 'disabled';

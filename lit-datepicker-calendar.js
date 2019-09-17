@@ -21,13 +21,6 @@ import './lit-datepicker-cell';
 
 const locales = { en: enUS, fr };
 
-/**
- * `range-datepicker-calendar`
- *
- * @customElement
- * @polymer
- * @demo demo/index.html
- */
 class LitDatepickerCalendar extends LitElement {
   static get styles() {
     const mainStyle = css`
@@ -51,7 +44,7 @@ class LitDatepickerCalendar extends LitElement {
         display: table-cell;
         line-height: 20px;
         font-weight: 400;
-        color: var(--range-datepicker-day-names-text, rgb(117, 117, 117));
+        color: var(--lit-datepicker-day-names-text, rgb(117, 117, 117));
         font-size: 11px;
         width: 38px;
         padding: 0;
@@ -79,7 +72,7 @@ class LitDatepickerCalendar extends LitElement {
         width: 266px;
         margin: 10px 0;
         text-align: center;
-        color: var(--range-datepicker-month-text);
+        color: var(--lit-datepicker-month-text);
       }
 
       .monthName::first-letter {
@@ -140,7 +133,7 @@ class LitDatepickerCalendar extends LitElement {
             ${this.enableYearChange ? html`
             <paper-dropdown-menu no-label-float>
               <paper-listbox slot="dropdown-content" selected="${this.year}" @selected-changed="${this.handleYearListChanged.bind(this)}" attr-for-selected="data-name">
-                ${this.yearsList && this.yearsList.map((yearList) => html`<paper-item data-name="${yearList}">${yearList}</paper-item>`)}
+                ${this.yearsList && this.yearsList.map(yearList => html`<paper-item data-name="${yearList}">${yearList}</paper-item>`)}
               </paper-listbox>
             </paper-dropdown-menu>` : html`${this.year}`}
         </div>
@@ -150,13 +143,13 @@ class LitDatepickerCalendar extends LitElement {
       <div class="table">
         <div class="thead">
           <div class="tr">
-            ${this.dayNamesOfTheWeek && this.dayNamesOfTheWeek.map((dayNameOfWeek) => html`<div class="th">${dayNameOfWeek}</div>`)}
+            ${this.dayNamesOfTheWeek && this.dayNamesOfTheWeek.map(dayNameOfWeek => html`<div class="th">${dayNameOfWeek}</div>`)}
           </div>
         </div>
         <div class="tbody">
-          ${this.daysOfMonth && this.daysOfMonth.map((week) => html`
+          ${this.daysOfMonth && this.daysOfMonth.map(week => html`
           <div class="tr">
-            ${week && week.map((dayOfMonth) => html`
+            ${week && week.map(dayOfMonth => html`
               <div class="td ${this.tdIsEnabled(dayOfMonth)}">
                 ${dayOfMonth ? html`
                   <lit-datepicker-cell
