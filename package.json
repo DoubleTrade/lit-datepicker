@@ -43,5 +43,9 @@
     "date-fns": "2.0.0",
     "lit-element": "2.1.0",
     "web-animations-js": "2.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DoubleTrade/lit-datepicker"
   }
 }
