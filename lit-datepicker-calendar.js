@@ -183,7 +183,6 @@ class LitDatepickerCalendar extends LitElement {
   }
 
   updated(properties) {
-    console.log(this.daysOfMonth);
     if (properties.has('locale')) {
       this.localeChanged();
     }
@@ -430,18 +429,20 @@ class LitDatepickerCalendar extends LitElement {
     }
     this.yearsList = yearsList;
     await this.updateComplete;
-    const paperDropdownMenu = this.shadowRoot.querySelector('paper-dropdown-menu');
-    paperDropdownMenu.updateStyles({
-      '--paper-input-container-underline_-_display': 'none',
-      '--paper-input-container-shared-input-style_-_font-weight': '500',
-      '--paper-input-container-shared-input-style_-_text-align': 'right',
-      '--paper-input-container-shared-input-style_-_font-size': '20px',
-      '--paper-input-container_-_width': '75px',
-      '--paper-input-container_-_padding': '0',
-      '--paper-input-container-shared-input-style_-_color': 'var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))',
-      '--paper-input-container-input-color': 'var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))',
-      '--disabled-text-color': 'var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))',
-    });
+    if (this.enableYearChange) {
+      const paperDropdownMenu = this.shadowRoot.querySelector('paper-dropdown-menu');
+      paperDropdownMenu.updateStyles({
+        '--paper-input-container-underline_-_display': 'none',
+        '--paper-input-container-shared-input-style_-_font-weight': '500',
+        '--paper-input-container-shared-input-style_-_text-align': 'right',
+        '--paper-input-container-shared-input-style_-_font-size': '20px',
+        '--paper-input-container_-_width': '75px',
+        '--paper-input-container_-_padding': '0',
+        '--paper-input-container-shared-input-style_-_color': 'var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))',
+        '--paper-input-container-input-color': 'var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))',
+        '--disabled-text-color': 'var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))',
+      });
+    }
   }
 
   enableYearChangeChanged(enableYearChange) {
