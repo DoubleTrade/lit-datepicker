@@ -95,9 +95,8 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
   }
 
   updated(properties) {
-
-    if (properties.has('month') || properties.has('year')) {
-      this.monthChanged(month, year);
+    if (properties.has('month') || properties.has('year')) {
+      this.monthChanged(this.month, this.year);
     }
 
     if (properties.has('noRange')) {
