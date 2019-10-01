@@ -131,6 +131,10 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
         padding: 16px;
         display: block;
       }
+
+      #trigger {
+        width: 100%;
+      }
     `;
     return [mainStyle, ironFlexLayoutTheme, ironFlexLayoutAlignTheme];
   }
@@ -216,8 +220,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
   }
 
   updated(properties) {
-
-    if (properties.has('month') || properties.has('year')) {
+    if (properties.has('month') || properties.has('year')) {
       this.monthChanged(this.month, this.year);
     }
 
