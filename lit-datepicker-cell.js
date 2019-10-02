@@ -10,7 +10,7 @@ class LitDatepickerCell extends LitElement {
         width: 38px;
       }
 
-      div {
+      .day {
         text-align: center;
         height: 38px;
         width: 38px;
@@ -19,23 +19,32 @@ class LitDatepickerCell extends LitElement {
         color: var(--lit-datepicker-cell-text);
       }
 
-      div:not(.disabled):hover {
+      .day:not(.disabled):hover {
         background: var(--lit-datepicker-cell-hover, #e4e7e7);
         cursor: pointer;
       }
 
-      div.hovered {
+      .day.hovered {
         background: var(--lit-datepicker-cell-hovered, rgba(0, 150, 136, 0.5)) !important;
         color: var(--lit-datepicker-cell-hovered-text, white);
       }
 
-      div.selected {
+      .day.selected {
         background: var(--lit-datepicker-cell-selected, rgb(0, 150, 136)) !important;
         color: var(--lit-datepicker-cell-selected-text, white);
         ;
       }
 
-      div.disabled {
+      .day.currentDate .currentDayMarker {
+        width: 80%;
+        height: 80%;
+        font-weight: bold;
+        border-radius: 50%;
+        background-color: var(--current-day-background-color);
+        color: var(--current-day-color);
+      }
+
+      .day.disabled {
         opacity: 0.4;
       }`;
     return [mainStyle, ironFlexLayoutTheme, ironFlexLayoutAlignTheme];
@@ -46,8 +55,10 @@ class LitDatepickerCell extends LitElement {
       <div
         @click="${this.handleTap.bind(this)}"
         @mouseover="${this.handleHover.bind(this)}"
-        class="layout horizontal center center-justified ${this.isSelected(this.selected)} ${this.isHovered(this.hovered)} ${this.isEnabled(this.day, this.min, this.max, this.disabledDays)}">
-        ${this.day ? this.day.title : null}
+        class="layout horizontal center center-justified day ${this.isCurrentDate ? 'currentDate' : null} ${this.isSelected(this.selected)} ${this.isHovered(this.hovered)} ${this.isEnabled(this.day, this.min, this.max, this.disabledDays)}">
+        <div class="layout horizontal center center-justified currentDayMarker">
+          ${this.day ? this.day.title : null}
+        </div>
     </div>
 `;
   }
@@ -57,6 +68,7 @@ class LitDatepickerCell extends LitElement {
     this.selected = false;
     this.hovered = false;
     this.disabled = false;
+    this.isCurrentDate = false;
     this.disabledDays = [];
   }
 
@@ -72,6 +84,7 @@ class LitDatepickerCell extends LitElement {
       min: { type: Number },
       max: { type: Number },
       disabled: { type: Boolean },
+      isCurrentDate: { type: Boolean },
       disabledDays: { type: Array },
     };
   }

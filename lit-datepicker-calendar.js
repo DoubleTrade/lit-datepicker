@@ -9,6 +9,7 @@ import format from 'date-fns/esm/format';
 import parse from 'date-fns/esm/parse';
 import addDays from 'date-fns/esm/addDays';
 import endOfMonth from 'date-fns/esm/endOfMonth';
+import startOfDay from 'date-fns/esm/startOfDay';
 import getDay from 'date-fns/esm/getDay';
 import addMonths from 'date-fns/esm/addMonths';
 import addYears from 'date-fns/esm/addYears';
@@ -62,7 +63,6 @@ class LitDatepickerCalendar extends LitElement {
         padding: 0;
         width: 38px;
         margin: 0;
-        height: 38px;
       }
 
       .monthName {
@@ -161,6 +161,7 @@ class LitDatepickerCalendar extends LitElement {
                     .dateTo="${this.dateTo}"
                     .dateFrom="${this.dateFrom}"
                     .day="${dayOfMonth}"
+                    ?isCurrentDate="${this.isCurrentDate(dayOfMonth)}"
                     @date-is-hovered="${this.handleDateHovered.bind(this)}"
                     @date-is-selected="${this.handleDateSelected.bind(this)}"></lit-datepicker-cell>
                 ` : null}
@@ -180,6 +181,12 @@ class LitDatepickerCalendar extends LitElement {
     this.yearsList = [];
     this.enableYearChange = false;
     this.noRange = false;
+    this.currentDate = parseInt(format(startOfDay(Date.now()), 't'), 10);
+  }
+
+  isCurrentDate(dayOfMonth) {
+    const dayDate = dayOfMonth.date;
+    return dayDate === this.currentDate;
   }
 
   updated(properties) {
