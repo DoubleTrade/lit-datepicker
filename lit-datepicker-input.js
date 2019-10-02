@@ -211,8 +211,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
       <iron-media-query query="(max-width: 650px)" @query-matches-changed="${this.queryMatchesChanged.bind(this)}"></iron-media-query>
 
       <div id="trigger" @tap="${this.handleOpenDropdown.bind(this)}"></div>
-
-      <iron-dropdown no-overlap allow-outside-scroll vertical-align="${this.verticalAlign}" horizontal-align="${this.horizontalAlign}">
+      <iron-dropdown no-overlap allow-outside-scroll dynamic-align vertical-align="${this.verticalAlign}" horizontal-align="${this.horizontalAlign}">
         <paper-material slot="dropdown-content">
           ${calendar}
         </paper-material>
