@@ -1,4 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
+import startOfDay from 'date-fns/esm/startOfDay';
+import getTime from 'date-fns/esm/getTime';
 import { ironFlexLayoutAlignTheme, ironFlexLayoutTheme } from './iron-flex-import';
 
 class LitDatepickerCell extends LitElement {
@@ -101,7 +103,8 @@ class LitDatepickerCell extends LitElement {
     const parsedDateFrom = parseInt(dateFrom, 10);
     const parsedDateTo = parseInt(dateTo, 10);
     if (day) {
-      if (parsedDateTo === day.date || parsedDateFrom === day.date) {
+      if (getTime(startOfDay(parsedDateTo * 1000)) / 1000 === day.date
+        || getTime(startOfDay(parsedDateFrom * 1000)) / 1000 === day.date) {
         this.selected = true;
       }
       if (
