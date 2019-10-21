@@ -41,7 +41,6 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
             @hovered-date-changed="${this.hoveredDateChanged.bind(this)}"
             @date-to-changed="${this.dateToChanged.bind(this)}"
             @date-from-changed="${this.dateFromChanged.bind(this)}"
-            @new-year-is-manually-selected="${this.handleNewYearSelected.bind(this)}"
             @prev-month="${this.handlePrevMonth.bind(this)}">
           </lit-datepicker-calendar>
           <lit-datepicker-calendar
@@ -60,7 +59,6 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
             @hovered-date-changed="${this.hoveredDateChanged.bind(this)}"
             @date-to-changed="${this.dateToChanged.bind(this)}"
             @date-from-changed="${this.dateFromChanged.bind(this)}"
-            @new-year-is-manually-selected="${this.handleNewYearSelected.bind(this)}"
             @next-month="${this.handleNextMonth.bind(this)}">
           </lit-datepicker-calendar>
         </div>
@@ -79,8 +77,7 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
           .hoveredDate="${this.hoveredDate}"
           .dateTo="${this.dateTo}"
           .dateFrom="${this.dateFrom}"
-          ?narrow="${this.narrow || this.forceNarrow}"
-          @new-year-is-manually-selected="${this.handleNewYearSelected.bind(this)}">
+          ?narrow="${this.narrow || this.forceNarrow}">
       </lit-datepicker-calendar>`}
 `;
   }
