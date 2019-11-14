@@ -429,12 +429,16 @@ class LitDatepickerCalendar extends LitElement {
     }, 100);
   }
 
-  async firstUpdated() {
+  setYears(from, to) {
     const yearsList = [];
-    for (let i = 1970; i <= 2100; i += 1) {
+    for (let i = from; i <= to; i += 1) {
       yearsList.push(i);
     }
     this.yearsList = yearsList;
+  }
+
+  async firstUpdated() {
+    setTimeout(() => { this.setYears(1930, 2100); });
     await this.updateComplete;
     if (this.enableYearChange) {
       const paperDropdownMenu = this.shadowRoot.querySelector('paper-dropdown-menu');
