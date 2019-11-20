@@ -115,7 +115,7 @@ class LitDatepickerCalendar extends LitElement {
       paper-dropdown-menu {
         width: 75px;
         padding: 0;
-        height: 33px;
+        height: auto;
       }
     `;
     return [mainStyle, ironFlexLayoutTheme, ironFlexLayoutAlignTheme];
@@ -125,7 +125,7 @@ class LitDatepickerCalendar extends LitElement {
     return html`
     <div>
       <div class="monthName layout horizontal center">
-        ${this.prev || this.narrow ? html`<paper-icon-button icon="chevron-left" @tap="${this.handlePrevMonth.bind(this)}"></paper-icon-button>` : null}
+        ${this.prev || this.narrow || this.enableYearChange ? html`<paper-icon-button icon="chevron-left" @tap="${this.handlePrevMonth.bind(this)}"></paper-icon-button>` : null}
         <div class="flex layout horizontal center center-justified">
           <div>
             ${this.computeCurrentMonthName(this.month, this.year)}
@@ -137,7 +137,7 @@ class LitDatepickerCalendar extends LitElement {
               </paper-listbox>
             </paper-dropdown-menu>` : html`${this.year}`}
         </div>
-        ${this.next || this.narrow ? html`<paper-icon-button icon="chevron-right" @tap="${this.handleNextMonth.bind(this)}"></paper-icon-button>` : null}
+        ${this.next || this.narrow || this.enableYearChange ? html`<paper-icon-button icon="chevron-right" @tap="${this.handleNextMonth.bind(this)}"></paper-icon-button>` : null}
       </div>
 
       <div class="table">
