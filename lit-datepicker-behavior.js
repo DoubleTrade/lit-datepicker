@@ -1,4 +1,7 @@
 import format from 'date-fns/esm/format';
+import parse from 'date-fns/esm/parse';
+import getMonth from 'date-fns/esm/getMonth';
+import getYear from 'date-fns/esm/getYear';
 // import en from 'date-fns/esm/locale/en';
 //
 // const locales = { en, fr };
@@ -6,13 +9,31 @@ import format from 'date-fns/esm/format';
 /* eslint no-unused-vars: off */
 
 /* @polymerMixin */
-export default (subclass) => class extends subclass {
+export default subclass => class extends subclass {
   localeChanged(locale) {
     if (!this.month) {
-      this.month = format(new Date(), 'MM', { awareOfUnicodeTokens: true });
+      switch (this.defaultAs) {
+        case 'dateFrom':
+          this.month = this.dateFrom ? `0${getMonth(parse(this.dateFrom, 't', new Date())) + 1}`.slice(-2) : format(new Date(), 'MM', { awareOfUnicodeTokens: true });
+          break;
+        case 'dateTo':
+          this.month = this.dateTo ? `0${getMonth(parse(this.dateTo, 't', new Date())) + 1}`.slice(-2) : format(new Date(), 'MM', { awareOfUnicodeTokens: true });
+          break;
+        default:
+          this.month = format(new Date(), 'MM', { awareOfUnicodeTokens: true });
+      }
     }
     if (!this.year) {
-      this.year = format(new Date(), 'yyyy');
+      switch (this.defaultAs) {
+        case 'dateFrom':
+          this.year = this.dateFrom ? getYear(parse(this.dateFrom, 't', new Date())) : format(new Date(), 'yyyy');
+          break;
+        case 'dateTo':
+          this.year = this.dateTo ? getYear(parse(this.dateTo, 't', new Date())) : format(new Date(), 'yyyy');
+          break;
+        default:
+          this.year = format(new Date(), 'yyyy');
+      }
     }
   }
 

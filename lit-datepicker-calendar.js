@@ -11,6 +11,8 @@ import addDays from 'date-fns/esm/addDays';
 import endOfMonth from 'date-fns/esm/endOfMonth';
 import startOfDay from 'date-fns/esm/startOfDay';
 import getDay from 'date-fns/esm/getDay';
+import getMonth from 'date-fns/esm/getMonth';
+import getYear from 'date-fns/esm/getYear';
 import addMonths from 'date-fns/esm/addMonths';
 import addYears from 'date-fns/esm/addYears';
 import subMonths from 'date-fns/esm/subMonths';
@@ -39,6 +41,7 @@ class LitDatepickerCalendar extends LitElement {
         display: table;
         border-collapse: collapse;
         table-layout: fixed;
+        margin-top: 10px;
       }
 
       div.th {
@@ -70,9 +73,11 @@ class LitDatepickerCalendar extends LitElement {
         font-weight: 500;
         line-height: 28px;
         width: 266px;
-        margin: 10px 0;
+        margin: 10px 0 0 0;
         text-align: center;
         color: var(--lit-datepicker-month-text);
+        height: 32px;
+        overflow: hidden;
       }
 
       .monthName::first-letter {
@@ -117,6 +122,26 @@ class LitDatepickerCalendar extends LitElement {
         padding: 0;
         height: auto;
       }
+
+      .go-today {
+        text-align: center;
+        text-decoration: underline;
+        font-size: 10px;
+        color: var(--lit-datepicker-today-shortcut, rgb(0, 150, 136));
+        height: 11px;
+      }
+      .go-today span {
+        cursor: pointer;
+      }
+      .month-change {
+        min-width: 130px;
+      }
+
+      .monthName paper-icon-button {
+        width: 30px;
+        height: 30px;
+        padding: 0px;
+      }
     `;
     return [mainStyle, ironFlexLayoutTheme, ironFlexLayoutAlignTheme];
   }
@@ -127,17 +152,25 @@ class LitDatepickerCalendar extends LitElement {
       <div class="monthName layout horizontal center">
         ${this.prev || this.narrow || this.enableYearChange ? html`<paper-icon-button icon="chevron-left" @tap="${this.handlePrevMonth.bind(this)}"></paper-icon-button>` : null}
         <div class="flex layout horizontal center center-justified">
-          <div>
-            ${this.computeCurrentMonthName(this.month, this.year)}
-          </div>
-            ${this.enableYearChange ? html`
-            <paper-dropdown-menu no-label-float>
-              <paper-listbox slot="dropdown-content" selected="${this.year}" @selected-changed="${this.handleYearListChanged.bind(this)}" attr-for-selected="data-name">
-                ${this.yearsList && this.yearsList.map(yearList => html`<paper-item data-name="${yearList}">${yearList}</paper-item>`)}
+          ${this.enableMonthChange ? html`
+            <paper-dropdown-menu class="month-change" no-label-float>
+              <paper-listbox slot="dropdown-content" selected="${this.month}" @selected-changed="${this.handleMonthListChanged.bind(this)}" attr-for-selected="data-name">
+                ${this.monthsList && this.monthsList.map(monthList => html`<paper-item data-name="${monthList}">${this.computeCurrentMonthName(monthList, this.year)}</paper-item>`)}
               </paper-listbox>
-            </paper-dropdown-menu>` : html`${this.year}`}
+            </paper-dropdown-menu>` : html`<div>${this.computeCurrentMonthName(this.month, this.year)}</div>`}
+          ${this.enableYearChange ? html`
+          <paper-dropdown-menu class="year-change" no-label-float>
+            <paper-listbox slot="dropdown-content" selected="${this.year}" @selected-changed="${this.handleYearListChanged.bind(this)}" attr-for-selected="data-name">
+              ${this.yearsList && this.yearsList.map(yearList => html`<paper-item data-name="${yearList}">${yearList}</paper-item>`)}
+            </paper-listbox>
+          </paper-dropdown-menu>` : html`${this.year}`}
         </div>
         ${this.next || this.narrow || this.enableYearChange ? html`<paper-icon-button icon="chevron-right" @tap="${this.handleNextMonth.bind(this)}"></paper-icon-button>` : null}
+      </div>
+      <div class="go-today">
+        ${this.shouldDisplayGoToday(this.displayGoToday, this.month, this.year) ? html`
+          <span @tap=${this.goToday}>Aujourd'hui</span>
+        ` : null}
       </div>
 
       <div class="table">
@@ -180,8 +213,11 @@ class LitDatepickerCalendar extends LitElement {
     this.narrow = false;
     this.yearsList = [];
     this.enableYearChange = false;
+    this.enableMonthChange = false;
     this.noRange = false;
     this.currentDate = parseInt(format(startOfDay(Date.now()), 't'), 10);
+    this.displayGoToday = false;
+    this.defaultAs = 'today';
   }
 
   isCurrentDate(dayOfMonth) {
@@ -223,7 +259,11 @@ class LitDatepickerCalendar extends LitElement {
       noRange: { type: Boolean },
       narrow: { type: Boolean },
       yearsList: { type: Array },
+      monthsList: { type: Array },
       enableYearChange: { type: Boolean },
+      enableMonthChange: { type: Boolean },
+      displayGoToday: { type: Boolean },
+      defaultAs: { type: String },
     };
   }
 
@@ -438,14 +478,29 @@ class LitDatepickerCalendar extends LitElement {
   }
 
   async firstUpdated() {
+    this.monthsList = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
     setTimeout(() => { this.setYears(1930, 2100); });
     await this.updateComplete;
     if (this.enableYearChange) {
-      const paperDropdownMenu = this.shadowRoot.querySelector('paper-dropdown-menu');
+      const paperDropdownMenu = this.shadowRoot.querySelector('.year-change');
       paperDropdownMenu.updateStyles({
         '--paper-input-container-underline_-_display': 'none',
         '--paper-input-container-shared-input-style_-_font-weight': '500',
         '--paper-input-container-shared-input-style_-_text-align': 'right',
+        '--paper-input-container-shared-input-style_-_font-size': '20px',
+        '--paper-input-container_-_width': '75px',
+        '--paper-input-container_-_padding': '0',
+        '--paper-input-container-shared-input-style_-_color': 'var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))',
+        '--paper-input-container-input-color': 'var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))',
+        '--disabled-text-color': 'var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))',
+      });
+    }
+    if (this.enableMonthChange) {
+      const paperDropdownMenu = this.shadowRoot.querySelector('.month-change');
+      paperDropdownMenu.updateStyles({
+        '--paper-input-container-underline_-_display': 'none',
+        '--paper-input-container-shared-input-style_-_font-weight': '500',
+        '--paper-input-container-shared-input-style_-_text-align': 'center',
         '--paper-input-container-shared-input-style_-_font-size': '20px',
         '--paper-input-container_-_width': '75px',
         '--paper-input-container_-_padding': '0',
@@ -462,6 +517,19 @@ class LitDatepickerCalendar extends LitElement {
 
   handleYearListChanged({ detail }) {
     this.year = detail.value;
+  }
+
+  handleMonthListChanged({ detail }) {
+    this.month = detail.value;
+  }
+
+  goToday() {
+    this.month = `0${getMonth(new Date()) + 1}`.slice(-2);
+    this.year = getYear(new Date());
+  }
+
+  shouldDisplayGoToday(displayGoToday, month, year) {
+    return displayGoToday && (parseInt(month, 10) !== getMonth(new Date()) + 1 || parseInt(year, 10) !== getYear(new Date()));
   }
 }
 
