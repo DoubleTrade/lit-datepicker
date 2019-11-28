@@ -40,7 +40,7 @@ class LitDatepickerCell extends LitElement {
       .day.currentDate .currentDayMarker {
         width: 80%;
         height: 80%;
-        font-weight: bold;
+        font-weight: var(--current-day-font-weight, bold);;
         border-radius: 50%;
         background-color: var(--current-day-background-color);
         color: var(--current-day-color);

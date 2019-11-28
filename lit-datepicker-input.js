@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { LitElement, html, css } from 'lit-element';
 import { render } from 'lit-html';
 
@@ -5,11 +6,15 @@ import format from 'date-fns/esm/format';
 import parse from 'date-fns/esm/parse';
 import enGB from 'date-fns/esm/locale/en-GB';
 import fr from 'date-fns/esm/locale/fr';
-import { ironFlexLayoutAlignTheme, ironFlexLayoutTheme } from './iron-flex-import';
 import '@polymer/paper-material/paper-material';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes';
+import '@polymer/paper-input/paper-input';
+import '@polymer/paper-icon-button/paper-icon-button';
+import { ironFlexLayoutAlignTheme, ironFlexLayoutTheme } from './iron-flex-import';
 import './lit-datepicker-calendar';
 import LitDatepickerBehavior from './lit-datepicker-behavior';
+import './components/lit-datepicker-writable-input';
+import './components/lit-datepicker-default-input';
 
 const locales = { en: enGB, fr };
 
@@ -21,6 +26,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
     this.noRange = false;
     this.dateFormat = 'dd/MM/yyyy';
     this.enableYearChange = false;
+    this.enableMonthChange = false;
     this.forceNarrow = false;
     this.narrow = false;
     this.locale = 'en';
@@ -28,6 +34,10 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
     this.verticalAlign = 'top';
     this.dropdownPosition = 'fixed';
     this.verticalOffset = 0;
+    this.displayGoToday = false;
+    this.label = 'Date';
+    this.defaultAs = 'today';
+    this.writableInput = false;
   }
 
   static get properties() {
@@ -50,6 +60,12 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
        * Default is 'en'.
        */
       locale: { type: String },
+      /**
+       * Set the default date to use if no month / year is set
+       * possible values: dateFrom, dateTo or today
+       * default: today
+       */
+      defaultAs: { type: String },
       /**
        * Set month.
        * Format is MM (example: 07 for July, 12 for january).
@@ -79,6 +95,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
        */
       hoveredDate: { type: String },
       enableYearChange: { type: Boolean },
+      enableMonthChange: { type: Boolean },
       /**
        * Minimal date.
        * Format is Unix timestamp.
@@ -109,6 +126,19 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
       _isNarrow: { type: Function },
       dropdownPosition: { type: String },
       verticalOffset: { type: Number },
+      /**
+       * If set to true, a button will be drawn next to month name
+       * to shortcut to the current month / year
+       */
+      displayGoToday: { type: Boolean },
+      /**
+       * The input label to use if html property isn't set
+       */
+      label: { type: String },
+      /**
+       * Allow to write directly into the date input
+       */
+      writableInput: { type: Boolean },
     };
   }
 
@@ -135,6 +165,9 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
       #trigger {
         width: 100%;
       }
+      lit-datepicker-writable-input {
+        margin-top: 11px;
+      }
     `;
     return [mainStyle, ironFlexLayoutTheme, ironFlexLayoutAlignTheme];
   }
@@ -151,6 +184,8 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
               .min="${this.min}"
               .max="${this.max}"
               ?enableYearChange="${this.enableYearChange}"
+              ?enableMonthChange="${this.enableMonthChange}"
+              .defaultAs="${this.defaultAs}"
               ?prev="${true}"
               ?noRange="${this.noRange}"
               .locale="${this.locale}"
@@ -159,6 +194,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
               .hoveredDate="${this.hoveredDate}"
               .dateTo="${this.dateTo}"
               .dateFrom="${this.dateFrom}"
+              .displayGoToday="${this.displayGoToday}"
               @hovered-date-changed="${this.hoveredDateChanged.bind(this)}"
               @date-to-changed="${this.dateToChanged.bind(this)}"
               @date-from-changed="${this.dateFromChanged.bind(this)}"
@@ -169,6 +205,8 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
               .min="${this.min}"
               .max="${this.max}"
               ?enableYearChange="${this.enableYearChange}"
+              ?enableMonthChange="${this.enableMonthChange}"
+              .defaultAs="${this.defaultAs}"
               ?next="${true}"
               ?noRange="${this.noRange}"
               .locale="${this.locale}"
@@ -191,6 +229,8 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
           .min="${this.min}"
           .max="${this.max}"
           ?enableYearChange="${this.enableYearChange}"
+          ?enableMonthChange="${this.enableMonthChange}"
+          .defaultAs="${this.defaultAs}"
           ?prev="${true}"
           ?next="${true}"
           ?noRange="${this.noRange}"
@@ -201,6 +241,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
           .dateTo="${this.dateTo}"
           .dateFrom="${this.dateFrom}"
           ?narrow="${this.narrow || this.forceNarrow}"
+          .displayGoToday="${this.displayGoToday}"
           @hovered-date-changed="${this.hoveredDateChanged.bind(this)}"
           @date-to-changed="${this.dateToChanged.bind(this)}"
           @date-from-changed="${this.dateFromChanged.bind(this)}">
@@ -211,6 +252,33 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
       <iron-media-query query="(max-width: 650px)" @query-matches-changed="${this.queryMatchesChanged.bind(this)}"></iron-media-query>
 
       <div id="trigger" @tap="${this.handleOpenDropdown.bind(this)}"></div>
+      ${!this.html ? html`
+        ${this.writableInput ? html`
+          <lit-datepicker-writable-input 
+          .dateFrom=${this.formatDate(this.dateFrom)} 
+          .dateTo=${this.formatDate(this.dateTo)}
+          .noRange=${this.noRange}
+          .label=${this.label}
+          .dateFormat=${this.dateFormat}
+          .locale=${this.locale}
+          @clear-date=${this._clear.bind(this)}
+          @date-from-changed=${this.dateFromChanged.bind(this)}
+          @date-to-changed=${this.dateToChanged.bind(this)}
+          @open-dropdown=${this.handleOpenDropdown.bind(this)}
+          @close-dropdown=${this.closeDropdown.bind(this)}
+          ></lit-datepicker-double-input>
+        ` : html`
+          <lit-datepicker-default-input 
+          .dateFrom=${this.formatDate(this.dateFrom)} 
+          .dateTo=${this.formatDate(this.dateTo)}
+          .dateFormat=${this.dateFormat} 
+          .label=${this.label}
+          .noRange=${this.noRange}
+          @tap=${this.handleOpenDropdown.bind(this)}
+          @clear-date=${this._clear.bind(this)}
+          ></lit-datepicker-default-input>
+        `}
+      ` : null}
       <iron-dropdown no-overlap allow-outside-scroll dynamic-align vertical-align="${this.verticalAlign}" horizontal-align="${this.horizontalAlign}">
         <paper-material slot="dropdown-content">
           ${calendar}
@@ -219,7 +287,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
   }
 
   updated(properties) {
-    if (properties.has('month') || properties.has('year')) {
+    if (properties.has('year') || properties.has('month')) {
       this.monthChanged(this.month, this.year);
     }
 
@@ -239,11 +307,17 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
       if (this.dateTo) {
         this.shadowRoot.querySelector('iron-dropdown').close();
       }
+      if (!properties.has('dateFrom') && !properties.has('html')) {
+        this.renderHtml();
+      }
     }
 
     if (properties.has('dateFrom')) {
       if (this.noRange && this.dateFrom) {
         this.shadowRoot.querySelector('iron-dropdown').close();
+      }
+      if (!properties.has('html')) {
+        this.renderHtml();
       }
     }
 
@@ -256,6 +330,10 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
     if (this.dropdownPosition === 'absolute') {
       this.setAbsolutePositioning();
     }
+  }
+
+  _clear() {
+    this.dispatchEvent(new CustomEvent('clear-date', {}));
   }
 
   setAbsolutePositioning() {
@@ -299,8 +377,10 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
   }
 
   renderHtml() {
-    const trigger = this.shadowRoot.querySelector('#trigger');
-    render(this.html(this.formatDate(this.dateFrom), this.formatDate(this.dateTo)), trigger);
+    if (this.html) {
+      const trigger = this.shadowRoot.querySelector('#trigger');
+      render(this.html(this.formatDate(this.dateFrom), this.formatDate(this.dateTo)), trigger);
+    }
   }
 
   dateToChanged({ detail }) {
@@ -312,9 +392,11 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
   dateFromChanged({ detail }) {
     this.dateFrom = detail.value;
     this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this.dateFrom } }));
-    const trigger = this.shadowRoot.querySelector('#trigger');
-    render(this.html(this.dateFrom, this.dateTo), trigger);
-    this.renderHtml();
+    if (this.html) {
+      const trigger = this.shadowRoot.querySelector('#trigger');
+      render(this.html(this.dateFrom, this.dateTo), trigger);
+      this.renderHtml();
+    }
   }
 }
 

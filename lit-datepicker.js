@@ -30,6 +30,8 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
             .min="${this.min}"
             .max="${this.max}"
             ?enableYearChange="${this.enableYearChange}"
+            ?enableMonthChange="${this.enableMonthChange}"
+            .defaultAs="${this.defaultAs}"
             ?prev="${true}"
             ?noRange="${this.noRange}"
             .locale="${this.locale}"
@@ -48,6 +50,7 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
             .min="${this.min}"
             .max="${this.max}"
             ?enableYearChange="${this.enableYearChange}"
+            ?enableMonthChange="${this.enableMonthChange}"
             ?next="${true}"
             ?noRange="${this.noRange}"
             .locale="${this.locale}"
@@ -68,6 +71,7 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
           .min="${this.min}"
           .max="${this.max}"
           ?enableYearChange="${this.enableYearChange}"
+          ?enableMonthChange="${this.enableMonthChange}"
           ?prev="${true}"
           ?next="${true}"
           ?noRange="${this.noRange}"
@@ -89,6 +93,8 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
     this.narrow = false;
     this.locale = 'en';
     this.enableYearChange = false;
+    this.enableMonthChange = false;
+    this.defaultAs = 'today';
   }
 
   updated(properties) {
@@ -157,6 +163,13 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
        */
       hoveredDate: { type: String },
       enableYearChange: { type: Boolean },
+      enableMonthChange: { type: Boolean },
+      /**
+       * Set the default date to use if no month / year is set
+       * possible values: dateFrom, dateTo or today
+       * default: today
+       */
+      defaultAs: { type: String },
       /**
        * Minimal date.
        * Format is Unix timestamp.
