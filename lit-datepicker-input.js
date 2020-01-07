@@ -247,15 +247,14 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
           @date-from-changed="${this.dateFromChanged.bind(this)}">
         </lit-datepicker-calendar>`;
     }
-
     return html`
       <iron-media-query query="(max-width: 650px)" @query-matches-changed="${this.queryMatchesChanged.bind(this)}"></iron-media-query>
 
       <div id="trigger" @tap="${this.handleOpenDropdown.bind(this)}"></div>
       ${!this.html ? html`
         ${this.writableInput ? html`
-          <lit-datepicker-writable-input 
-          .dateFrom=${this.formatDate(this.dateFrom)} 
+          <lit-datepicker-writable-input
+          .dateFrom=${this.formatDate(this.dateFrom)}
           .dateTo=${this.formatDate(this.dateTo)}
           .noRange=${this.noRange}
           .label=${this.label}
@@ -268,10 +267,10 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
           @close-dropdown=${this.closeDropdown.bind(this)}
           ></lit-datepicker-double-input>
         ` : html`
-          <lit-datepicker-default-input 
-          .dateFrom=${this.formatDate(this.dateFrom)} 
+          <lit-datepicker-default-input
+          .dateFrom=${this.formatDate(this.dateFrom)}
           .dateTo=${this.formatDate(this.dateTo)}
-          .dateFormat=${this.dateFormat} 
+          .dateFormat=${this.dateFormat}
           .label=${this.label}
           .noRange=${this.noRange}
           @tap=${this.handleOpenDropdown.bind(this)}
@@ -307,6 +306,11 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
       if (this.dateTo) {
         this.shadowRoot.querySelector('iron-dropdown').close();
       }
+      if (this.defaultAs === 'dateTo' && this.dateTo) {
+        const { month, year } = this._getMonthAndYearFromDate(new Date(this.dateTo * 1000));
+        this.month = month;
+        this.year = year;
+      }
       if (!properties.has('dateFrom') && !properties.has('html')) {
         this.renderHtml();
       }
@@ -316,6 +320,11 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
       if (this.noRange && this.dateFrom) {
         this.shadowRoot.querySelector('iron-dropdown').close();
       }
+      if (this.defaultAs === 'dateFrom' && this.dateFrom) {
+        const { month, year } = this._getMonthAndYearFromDate(new Date(this.dateFrom * 1000));
+        this.month = month;
+        this.year = year;
+      }
       if (!properties.has('html')) {
         this.renderHtml();
       }
@@ -324,6 +333,13 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
     if (properties.has('html')) {
       this.renderHtml();
     }
+  }
+
+  _getMonthAndYearFromDate(date) {
+    let month = date.getMonth() + 1;
+    month = (month < 10) ? `0${month}` : month;
+    const year = date.getFullYear();
+    return { month, year };
   }
 
   firstUpdated() {
