@@ -155,13 +155,13 @@ class LitDatepickerCalendar extends LitElement {
           ${this.enableMonthChange ? html`
             <paper-dropdown-menu class="month-change" no-label-float>
               <paper-listbox slot="dropdown-content" selected="${this.month}" @selected-changed="${this.handleMonthListChanged.bind(this)}" attr-for-selected="data-name">
-                ${this.monthsList && this.monthsList.map(monthList => html`<paper-item data-name="${monthList}">${this.computeCurrentMonthName(monthList, this.year)}</paper-item>`)}
+                ${this.monthsList && this.monthsList.map((monthList) => html`<paper-item data-name="${monthList}">${this.computeCurrentMonthName(monthList, this.year)}</paper-item>`)}
               </paper-listbox>
             </paper-dropdown-menu>` : html`<div>${this.computeCurrentMonthName(this.month, this.year)}</div>`}
           ${this.enableYearChange ? html`
           <paper-dropdown-menu class="year-change" no-label-float>
             <paper-listbox slot="dropdown-content" selected="${this.year}" @selected-changed="${this.handleYearListChanged.bind(this)}" attr-for-selected="data-name">
-              ${this.yearsList && this.yearsList.map(yearList => html`<paper-item data-name="${yearList}">${yearList}</paper-item>`)}
+              ${this.yearsList && this.yearsList.map((yearList) => html`<paper-item data-name="${yearList}">${yearList}</paper-item>`)}
             </paper-listbox>
           </paper-dropdown-menu>` : html`${this.year}`}
         </div>
@@ -176,13 +176,13 @@ class LitDatepickerCalendar extends LitElement {
       <div class="table">
         <div class="thead">
           <div class="tr">
-            ${this.dayNamesOfTheWeek && this.dayNamesOfTheWeek.map(dayNameOfWeek => html`<div class="th">${dayNameOfWeek}</div>`)}
+            ${this.dayNamesOfTheWeek && this.dayNamesOfTheWeek.map((dayNameOfWeek) => html`<div class="th">${dayNameOfWeek}</div>`)}
           </div>
         </div>
         <div class="tbody">
-          ${this.daysOfMonth && this.daysOfMonth.map(week => html`
+          ${this.daysOfMonth && this.daysOfMonth.map((week) => html`
           <div class="tr">
-            ${week && week.map(dayOfMonth => html`
+            ${week && week.map((dayOfMonth) => html`
               <div class="td ${this.tdIsEnabled(dayOfMonth)}">
                 ${dayOfMonth ? html`
                   <lit-datepicker-cell
@@ -529,7 +529,9 @@ class LitDatepickerCalendar extends LitElement {
   }
 
   shouldDisplayGoToday(displayGoToday, month, year) {
-    return displayGoToday && (parseInt(month, 10) !== getMonth(new Date()) + 1 || parseInt(year, 10) !== getYear(new Date()));
+    return displayGoToday
+      && (parseInt(month, 10) !== getMonth(new Date()) + 1
+        || parseInt(year, 10) !== getYear(new Date()));
   }
 }
 

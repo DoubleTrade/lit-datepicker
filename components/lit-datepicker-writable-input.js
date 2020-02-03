@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { LitElement, html, css } from 'lit-element';
 
-import format from 'date-fns/esm/format';
-import parse from 'date-fns/esm/parse';
 import '@polymer/paper-material/paper-material';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes';
 import '@polymer/paper-input/paper-input';
@@ -62,6 +60,7 @@ class LitDatepickerWritableInput extends LitElement {
        * Default is 'en'.
        */
       locale: { type: String },
+      outline: { type: Boolean },
     };
   }
 
@@ -101,12 +100,34 @@ class LitDatepickerWritableInput extends LitElement {
         white-space: no-wrap;
         text-overflow: ellipsis;
         color: var(--paper-input-container-color, var(--secondary-text-color));
-      }`;
+      }
+
+      .outline:hover label {
+        color: black;
+      }
+      .outline:hover {
+        border-color: black;
+      }
+
+      .outline {
+        border: var(--dt-input-border-width, 2px) solid var(--dt-input-border-color, rgba(0, 0, 0, var(--dark-divider-opacity)));
+        border-radius: var(--dt-input-border-radius, 5px);
+        padding: 13px 10px 10px 15px;
+      }
+
+      .outline label {
+        background-color: var(--input-outlined-background-color, white);
+        top: -8px;
+        left: 15px;
+        padding: 0 6px
+      }
+      `;
     return [ironFlexLayoutTheme, ironFlexLayoutAlignTheme, mainStyle];
   }
 
   render() {
     return html`
+    <div class="${this.outline ? 'outline' : ''}">
       <label>${this.label}</label>
       <div class="date-input-container">
         <lit-datepicker-date-input id="date-from-input"
@@ -114,6 +135,7 @@ class LitDatepickerWritableInput extends LitElement {
           .min=${this.min}
           .max=${this.max}
           .language=${this.locale}
+          .outline=${this.outline}
           @end-of-input=${this.focusNext.bind(this)}
           @validate=${this._saveValues.bind(this)}
           @date-changed=${this._handleValuesHadChanged.bind(this)}
@@ -124,6 +146,7 @@ class LitDatepickerWritableInput extends LitElement {
             .min=${this.min}
             .max=${this.max}
             .language=${this.locale}
+            .outline=${this.outline}
             @focus-prev=${this.focusPrev.bind(this)}
             @validate=${this._saveValues.bind(this)}
             @date-changed=${this._handleValuesHadChanged.bind(this)}
@@ -135,7 +158,8 @@ class LitDatepickerWritableInput extends LitElement {
         ` : html`
           <paper-icon-button icon="today" @tap="${this.handleOpenDropdown.bind(this)}"></paper-icon-button>
         `}
-      </div>`;
+      </div>
+    </div>`;
   }
 
   focusNext({ currentTarget }) {

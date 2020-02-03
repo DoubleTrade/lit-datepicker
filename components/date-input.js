@@ -73,6 +73,7 @@ class LitDatepickerDateInput extends localize(LitElement) {
       error: { type: String },
       resources: { type: Object },
       language: { type: String },
+      outline: { type: Boolean },
     };
   }
 
@@ -80,6 +81,7 @@ class LitDatepickerDateInput extends localize(LitElement) {
     const mainStyle = css`
       :host {
         display: block;
+        position: relative;
       }
       .date-input .date-separator::after {
         content:'/';
@@ -135,13 +137,21 @@ class LitDatepickerDateInput extends localize(LitElement) {
       .date-input.error input {
         border-bottom: 2px solid var(--error-color, red);
       }
+      #error.outline {
+        position: absolute;
+        bottom: -25px;
+      }
+      .outline.date-input .date-separator::after ,
+      .outline.date-input input {
+        border-bottom: none;
+      }
       `;
     return [ironFlexLayoutTheme, ironFlexLayoutAlignTheme, mainStyle];
   }
 
   render() {
     return html`
-      <div class="date-input">
+      <div class="date-input ${this.outline ? 'outline' : ''}">
         <input class="day" tabindex=1 max="31" min="1"  
         @keydown=${this.keypress.bind(this)} @focus=${this.selectAll.bind(this)} 
         @select=${this.selectAll.bind(this)} @tap=${this.selectAll.bind(this)}
@@ -160,7 +170,7 @@ class LitDatepickerDateInput extends localize(LitElement) {
         @focusout=${this.focusout.bind(this)}
         .value=${this._year} />
       </div>
-      <div id="error">${this.localize(this.error)}</div>
+      <div class="${this.outline ? 'outline' : ''}" id="error">${this.localize(this.error)}</div>
     `;
   }
 

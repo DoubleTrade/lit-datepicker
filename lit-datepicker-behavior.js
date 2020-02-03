@@ -9,7 +9,7 @@ import getYear from 'date-fns/esm/getYear';
 /* eslint no-unused-vars: off */
 
 /* @polymerMixin */
-export default subclass => class extends subclass {
+export default (subclass) => class extends subclass {
   localeChanged(locale) {
     if (!this.month) {
       switch (this.defaultAs) {

@@ -38,6 +38,7 @@ class LitDatepickerDefaultInput extends LitElement {
        * The input label to use if html property isn't set
        */
       label: { type: String },
+      outline: { type: Boolean },
     };
   }
 
