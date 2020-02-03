@@ -155,7 +155,7 @@ class LitDatepickerCell extends LitElement {
       if (
         day.date < min
         || day.date > max
-        || disabledDays.findIndex(disabledDay => parseInt(disabledDay, 10) === day.date) !== -1
+        || disabledDays.findIndex((disabledDay) => parseInt(disabledDay, 10) === day.date) !== -1
       ) {
         this.disabled = true;
         return 'disabled';

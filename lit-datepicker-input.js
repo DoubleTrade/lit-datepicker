@@ -139,6 +139,10 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
        * Allow to write directly into the date input
        */
       writableInput: { type: Boolean },
+      /**
+       * change display style to outline
+       */
+      outline: { type: Boolean },
     };
   }
 
@@ -167,6 +171,10 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
       }
       lit-datepicker-writable-input {
         margin-top: 11px;
+      }
+      lit-datepicker-writable-input.outline {
+        margin-top: 0px;
+        padding-top: 0px;
       }
     `;
     return [mainStyle, ironFlexLayoutTheme, ironFlexLayoutAlignTheme];
@@ -250,7 +258,6 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
     return html`
       <iron-media-query query="(max-width: 650px)" @query-matches-changed="${this.queryMatchesChanged.bind(this)}"></iron-media-query>
 
-      <div id="trigger" @tap="${this.handleOpenDropdown.bind(this)}"></div>
       ${!this.html ? html`
         ${this.writableInput ? html`
           <lit-datepicker-writable-input
@@ -265,8 +272,11 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
           @date-to-changed=${this.dateToChanged.bind(this)}
           @open-dropdown=${this.handleOpenDropdown.bind(this)}
           @close-dropdown=${this.closeDropdown.bind(this)}
-          ></lit-datepicker-double-input>
+          .outline=${this.outline}
+          class="${this.outline ? 'outline' : ''}"
+          ></lit-datepicker-writable-input>
         ` : html`
+          <div id="trigger" @tap="${this.handleOpenDropdown.bind(this)}"></div>
           <lit-datepicker-default-input
           .dateFrom=${this.formatDate(this.dateFrom)}
           .dateTo=${this.formatDate(this.dateTo)}
@@ -275,9 +285,12 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
           .noRange=${this.noRange}
           @tap=${this.handleOpenDropdown.bind(this)}
           @clear-date=${this._clear.bind(this)}
+          .outline=${this.outline}
           ></lit-datepicker-default-input>
         `}
-      ` : null}
+      ` : html`
+        <div id="trigger" @tap="${this.handleOpenDropdown.bind(this)}"></div>
+      `}
       <iron-dropdown no-overlap allow-outside-scroll dynamic-align vertical-align="${this.verticalAlign}" horizontal-align="${this.horizontalAlign}">
         <paper-material slot="dropdown-content">
           ${calendar}

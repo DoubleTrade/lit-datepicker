@@ -10,13 +10,13 @@
   "name": "@doubletrade/lit-datepicker",
   "main": "lit-datepicker.js",
   "author": "Julien Rousseau <RoXuS>",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.3.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "polymer-cli": "^1.9.11"
+    "babel-eslint": "10.0.3",
+    "eslint": "6.3.0",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-plugin-import": "2.18.2",
+    "polymer-cli": "1.9.11"
   },
   "scripts": {
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
