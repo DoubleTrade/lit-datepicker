@@ -196,7 +196,10 @@ class LitDatepickerWritableInput extends LitElement {
 
   _clear() {
     this.shadowRoot.querySelector('#date-from-input').clear();
-    this.shadowRoot.querySelector('#date-to-input').clear();
+    const dateToInput = this.shadowRoot.querySelector('#date-to-input');
+    if (dateToInput) {
+      dateToInput.clear();
+    }
     this._valuesHadChanged = false;
     this.dispatchEvent(new CustomEvent('clear-date', {}));
   }
