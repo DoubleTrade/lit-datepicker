@@ -1,7 +1,7 @@
-import { LitElement, html, css } from 'lit-element';
-import { ironFlexLayoutAlignTheme, ironFlexLayoutTheme } from './iron-flex-import';
-import LitDatepickerBehavior from './lit-datepicker-behavior';
-import './lit-datepicker-calendar';
+import { LitElement, html, css } from 'lit-element'
+import { ironFlexLayoutAlignTheme, ironFlexLayoutTheme } from './iron-flex-import'
+import LitDatepickerBehavior from './lit-datepicker-behavior'
+import './lit-datepicker-calendar'
 
 class LitDatepicker extends LitDatepickerBehavior(LitElement) {
   static get styles() {
@@ -13,105 +13,116 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
 
       #firstDatePicker {
         margin-right: 16px;
-      }`;
-    return [mainStyle, ironFlexLayoutTheme, ironFlexLayoutAlignTheme];
+      }
+    `
+    return [mainStyle, ironFlexLayoutTheme, ironFlexLayoutAlignTheme]
   }
 
   render() {
     return html`
-    <iron-media-query query="(max-width: 650px)" @query-matches-changed="${this.queryMatchesChanged.bind(this)}"></iron-media-query>
+      <iron-media-query query="(max-width: 650px)" @query-matches-changed="${this.queryMatchesChanged.bind(this)}"></iron-media-query>
 
-    ${!this.forceNarrow && !this.narrow ? html`
-      <div class="layout vertical center-justified">
-        <div class="layout horizontal">
-          <lit-datepicker-calendar
-            id="firstDatePicker"
-            .disabledDays="${this.disabledDays}"
-            .min="${this.min}"
-            .max="${this.max}"
-            ?enableYearChange="${this.enableYearChange}"
-            ?enableMonthChange="${this.enableMonthChange}"
-            .defaultAs="${this.defaultAs}"
-            ?prev="${true}"
-            ?noRange="${this.noRange}"
-            .locale="${this.locale}"
-            .month="${this.month}"
-            .year="${this.year}"
-            .hoveredDate="${this.hoveredDate}"
-            .dateTo="${this.dateTo}"
-            .dateFrom="${this.dateFrom}"
-            @hovered-date-changed="${this.hoveredDateChanged.bind(this)}"
-            @date-to-changed="${this.dateToChanged.bind(this)}"
-            @date-from-changed="${this.dateFromChanged.bind(this)}"
-            @prev-month="${this.handlePrevMonth.bind(this)}">
-          </lit-datepicker-calendar>
-          <lit-datepicker-calendar
-            .disabledDays="${this.disabledDays}"
-            .min="${this.min}"
-            .max="${this.max}"
-            ?enableYearChange="${this.enableYearChange}"
-            ?enableMonthChange="${this.enableMonthChange}"
-            ?next="${true}"
-            ?noRange="${this.noRange}"
-            .locale="${this.locale}"
-            .month="${this.monthPlus}"
-            .year="${this.yearPlus}"
-            .hoveredDate="${this.hoveredDate}"
-            .dateTo="${this.dateTo}"
-            .dateFrom="${this.dateFrom}"
-            @hovered-date-changed="${this.hoveredDateChanged.bind(this)}"
-            @date-to-changed="${this.dateToChanged.bind(this)}"
-            @date-from-changed="${this.dateFromChanged.bind(this)}"
-            @next-month="${this.handleNextMonth.bind(this)}">
-          </lit-datepicker-calendar>
-        </div>
-      </div>` : html`
-        <lit-datepicker-calendar
-          .disabledDays="${this.disabledDays}"
-          .min="${this.min}"
-          .max="${this.max}"
-          ?enableYearChange="${this.enableYearChange}"
-          ?enableMonthChange="${this.enableMonthChange}"
-          ?prev="${true}"
-          ?next="${true}"
-          ?noRange="${this.noRange}"
-          .month="${this.month}"
-          .year="${this.year}"
-          .locale="${this.locale}"
-          .hoveredDate="${this.hoveredDate}"
-          .dateTo="${this.dateTo}"
-          .dateFrom="${this.dateFrom}"
-          ?narrow="${this.narrow || this.forceNarrow}">
-      </lit-datepicker-calendar>`}
-`;
+      ${!this.forceNarrow && !this.narrow
+        ? html`
+            <div class="layout vertical center-justified">
+              <div class="layout horizontal">
+                <lit-datepicker-calendar
+                  id="firstDatePicker"
+                  .disabledDays="${this.disabledDays}"
+                  .min="${this.min}"
+                  .max="${this.max}"
+                  ?enableYearChange="${this.enableYearChange}"
+                  ?enableMonthChange="${this.enableMonthChange}"
+                  .defaultAs="${this.defaultAs}"
+                  ?prev="${true}"
+                  ?noRange="${this.noRange}"
+                  .locale="${this.locale}"
+                  .month="${this.month}"
+                  .year="${this.year}"
+                  .hoveredDate="${this.hoveredDate}"
+                  .dateTo="${this.dateTo}"
+                  .dateFrom="${this.dateFrom}"
+                  @hovered-date-changed="${this.hoveredDateChanged.bind(this)}"
+                  @date-to-changed="${this.dateToChanged.bind(this)}"
+                  @date-from-changed="${this.dateFromChanged.bind(this)}"
+                  @prev-month="${this.handlePrevMonth.bind(this)}"
+                >
+                </lit-datepicker-calendar>
+                <lit-datepicker-calendar
+                  .disabledDays="${this.disabledDays}"
+                  .min="${this.min}"
+                  .max="${this.max}"
+                  ?enableYearChange="${this.enableYearChange}"
+                  ?enableMonthChange="${this.enableMonthChange}"
+                  ?next="${true}"
+                  ?noRange="${this.noRange}"
+                  .locale="${this.locale}"
+                  .month="${this.monthPlus}"
+                  .year="${this.yearPlus}"
+                  .hoveredDate="${this.hoveredDate}"
+                  .dateTo="${this.dateTo}"
+                  .dateFrom="${this.dateFrom}"
+                  @hovered-date-changed="${this.hoveredDateChanged.bind(this)}"
+                  @date-to-changed="${this.dateToChanged.bind(this)}"
+                  @date-from-changed="${this.dateFromChanged.bind(this)}"
+                  @next-month="${this.handleNextMonth.bind(this)}"
+                >
+                </lit-datepicker-calendar>
+              </div>
+            </div>
+          `
+        : html`
+            <lit-datepicker-calendar
+              .disabledDays="${this.disabledDays}"
+              .min="${this.min}"
+              .max="${this.max}"
+              ?enableYearChange="${this.enableYearChange}"
+              ?enableMonthChange="${this.enableMonthChange}"
+              ?prev="${true}"
+              ?next="${true}"
+              ?noRange="${this.noRange}"
+              .month="${this.month}"
+              .year="${this.year}"
+              .locale="${this.locale}"
+              .hoveredDate="${this.hoveredDate}"
+              .dateTo="${this.dateTo}"
+              .dateFrom="${this.dateFrom}"
+              ?narrow="${this.narrow || this.forceNarrow}"
+              @hovered-date-changed="${this.hoveredDateChanged.bind(this)}"
+              @date-to-changed="${this.dateToChanged.bind(this)}"
+              @date-from-changed="${this.dateFromChanged.bind(this)}"
+            >
+            </lit-datepicker-calendar>
+          `}
+    `
   }
 
   constructor() {
-    super();
-    this.noRange = false;
-    this.forceNarrow = false;
-    this.narrow = false;
-    this.locale = 'en';
-    this.enableYearChange = false;
-    this.enableMonthChange = false;
-    this.defaultAs = 'today';
+    super()
+    this.noRange = false
+    this.forceNarrow = false
+    this.narrow = false
+    this.locale = 'en'
+    this.enableYearChange = false
+    this.enableMonthChange = false
+    this.defaultAs = 'today'
   }
 
   updated(properties) {
     if (properties.has('month') || properties.has('year')) {
-      this.monthChanged(this.month, this.year);
+      this.monthChanged(this.month, this.year)
     }
 
     if (properties.has('noRange')) {
-      this.noRangeChanged(this.noRange, properties.get('noRange'));
+      this.noRangeChanged(this.noRange, properties.get('noRange'))
     }
 
     if (properties.has('narrow')) {
-      this.dispatchEvent(new CustomEvent('narrow-changed', { detail: { value: this.narrow } }));
+      this.dispatchEvent(new CustomEvent('narrow-changed', { detail: { value: this.narrow } }))
     }
 
     if (properties.has('locale')) {
-      this.localeChanged(this.locale);
+      this.localeChanged(this.locale)
     }
   }
 
@@ -185,26 +196,26 @@ class LitDatepicker extends LitDatepickerBehavior(LitElement) {
        * Format is Unix timestamp.
        */
       disabledDays: { type: Array },
-    };
+    }
   }
 
   queryMatchesChanged({ detail }) {
-    this.narrow = detail.value;
+    this.narrow = detail.value
   }
 
   hoveredDateChanged({ detail }) {
-    this.hoveredDate = detail.value;
+    this.hoveredDate = detail.value
   }
 
   dateToChanged({ detail }) {
-    this.dateTo = detail.value;
-    this.dispatchEvent(new CustomEvent('date-to-changed', { detail: { value: this.dateTo } }));
+    this.dateTo = detail.value
+    this.dispatchEvent(new CustomEvent('date-to-changed', { detail: { value: this.dateTo } }))
   }
 
   dateFromChanged({ detail }) {
-    this.dateFrom = detail.value;
-    this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this.dateFrom } }));
+    this.dateFrom = detail.value
+    this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this.dateFrom } }))
   }
 }
 
-window.customElements.define('lit-datepicker', LitDatepicker);
+window.customElements.define('lit-datepicker', LitDatepicker)
