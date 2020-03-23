@@ -121,6 +121,10 @@ class LitDatepickerWritableInput extends LitElement {
         left: 15px;
         padding: 0 6px
       }
+
+      paper-icon-button.action:hover {
+        color: var(--primary-color, black);
+      }
       `;
     return [ironFlexLayoutTheme, ironFlexLayoutAlignTheme, mainStyle];
   }
@@ -152,12 +156,12 @@ class LitDatepickerWritableInput extends LitElement {
             @date-changed=${this._handleValuesHadChanged.bind(this)}
           ></lit-datepicker-date-input>
         ` : null}
-        <paper-icon-button icon="clear" @tap="${this._clear.bind(this)}"></paper-icon-button>
         ${this._valuesHadChanged ? html`
-          <paper-icon-button icon="save" @tap="${this._saveValues.bind(this)}"></paper-icon-button>
+          <paper-icon-button class="action" icon="save" @tap="${this._saveValues.bind(this)}"></paper-icon-button>
         ` : html`
-          <paper-icon-button icon="today" @tap="${this.handleOpenDropdown.bind(this)}"></paper-icon-button>
+          <paper-icon-button class="action" icon="today" @tap="${this.handleOpenDropdown.bind(this)}"></paper-icon-button>
         `}
+        <paper-icon-button icon="clear" @tap="${this._clear.bind(this)}"></paper-icon-button>
       </div>
     </div>`;
   }
