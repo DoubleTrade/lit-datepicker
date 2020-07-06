@@ -24,6 +24,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
     this.dateFrom = null;
     this.dateTo = null;
     this.noRange = false;
+    this.maxRange = 0;
     this.dateFormat = 'dd/MM/yyyy';
     this.enableYearChange = false;
     this.enableMonthChange = false;
@@ -47,6 +48,10 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
        * If setted only one date can be selected.
        */
       noRange: { type: Boolean },
+      /**
+       * If setted the date to can be maximum X days after the date from.
+       */
+      maxRange: { type: Number },
       /**
        * Force display one month.
        */
@@ -196,6 +201,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
               .defaultAs="${this.defaultAs}"
               ?prev="${true}"
               ?noRange="${this.noRange}"
+              .maxRange=${this.maxRange}
               .locale="${this.locale}"
               .month="${this.month}"
               .year="${this.year}"
@@ -217,6 +223,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
               .defaultAs="${this.defaultAs}"
               ?next="${true}"
               ?noRange="${this.noRange}"
+              .maxRange=${this.maxRange}
               .locale="${this.locale}"
               .month="${this.monthPlus}"
               .year="${this.yearPlus}"
@@ -242,6 +249,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
           ?prev="${true}"
           ?next="${true}"
           ?noRange="${this.noRange}"
+          .maxRange=${this.maxRange}
           .month="${this.month}"
           .year="${this.year}"
           .locale="${this.locale}"
@@ -264,6 +272,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
           .dateFrom=${this.formatDate(this.dateFrom)}
           .dateTo=${this.formatDate(this.dateTo)}
           .noRange=${this.noRange}
+          .maxRange=${this.maxRange}
           .label=${this.label}
           .dateFormat=${this.dateFormat}
           .locale=${this.locale}
@@ -283,6 +292,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
           .dateFormat=${this.dateFormat}
           .label=${this.label}
           .noRange=${this.noRange}
+          .maxRange=${this.maxRange}
           @tap=${this.handleOpenDropdown.bind(this)}
           @clear-date=${this._clear.bind(this)}
           .outline=${this.outline}
