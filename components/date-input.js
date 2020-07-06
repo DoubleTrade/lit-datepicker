@@ -140,6 +140,8 @@ class LitDatepickerDateInput extends localize(LitElement) {
       #error.outline {
         position: absolute;
         bottom: -25px;
+        background-color: var(--error-background-color, white);
+        padding: 0 8px;
       }
       .outline.date-input .date-separator::after ,
       .outline.date-input input {
@@ -170,7 +172,9 @@ class LitDatepickerDateInput extends localize(LitElement) {
         @focusout=${this.focusout.bind(this)}
         .value=${this._year} />
       </div>
-      <div class="${this.outline ? 'outline' : ''}" id="error">${this.localize(this.error)}</div>
+      ${this.error ? html`
+        <div class="${this.outline ? 'outline' : ''}" id="error">${this.localize(this.error)}</div>
+      ` : null}
     `;
   }
 

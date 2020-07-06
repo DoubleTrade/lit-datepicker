@@ -24,6 +24,7 @@ class LitDatepickerWritableInput extends LitElement {
        * If setted only one date can be selected.
        */
       noRange: { type: Boolean },
+      maxRange: { type: Number },
       /**
        * Set the default date to use if no month / year is set
        * possible values: dateFrom, dateTo or today
@@ -224,7 +225,8 @@ class LitDatepickerWritableInput extends LitElement {
       } else {
         const dateTo = this.shadowRoot.querySelector('#date-to-input').getDate();
         if (dateTo) {
-          if (dateFrom > dateTo) {
+          if (dateFrom > dateTo
+            || (this.maxRange && dateTo - dateFrom > this.maxRange * 24 * 3600)) {
             this.shadowRoot.querySelector('#date-to-input').setError('RANGE_ERROR');
           } else {
             this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: dateFrom } }));

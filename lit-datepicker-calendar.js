@@ -215,6 +215,7 @@ class LitDatepickerCalendar extends LitElement {
     this.enableYearChange = false;
     this.enableMonthChange = false;
     this.noRange = false;
+    this.maxRange = 0;
     this.currentDate = parseInt(format(startOfDay(Date.now()), 't'), 10);
     this.displayGoToday = false;
     this.defaultAs = 'today';
@@ -257,6 +258,7 @@ class LitDatepickerCalendar extends LitElement {
       dateFrom: { type: Number },
       hoveredDate: { type: Number },
       noRange: { type: Boolean },
+      maxRange: { type: Number },
       narrow: { type: Boolean },
       yearsList: { type: Array },
       monthsList: { type: Array },
@@ -366,7 +368,7 @@ class LitDatepickerCalendar extends LitElement {
         this.dateTo = null;
         this.hoveredDate = undefined;
         this.dispatchEvent(new CustomEvent('hovered-date-changed', { detail: { value: this.hoveredDate } }));
-      } else if (!this.dateFrom || (this.dateFrom && date < this.dateFrom)) {
+      } else if (!this.dateFrom || (this.dateFrom && date < this.dateFrom) || (this.maxRange > 0 && date - this.dateFrom > this.maxRange * 24 * 3600)) {
         this.dateFrom = date;
       } else if (!this.dateTo || (this.dateTo && date > this.dateTo)) {
         this.dateTo = date;
