@@ -425,6 +425,10 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
   dateToChanged({ detail }) {
     this.dateTo = detail.value;
     this.dispatchEvent(new CustomEvent('date-to-changed', { detail: { value: this.dateTo } }));
+    const inputs = this.shadowRoot.querySelectorAll('lit-datepicker-writable-input');
+    if (inputs) {
+      inputs.forEach((input) => input.clearError());
+    }
     this.renderHtml();
   }
 
