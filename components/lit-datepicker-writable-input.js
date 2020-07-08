@@ -222,6 +222,7 @@ class LitDatepickerWritableInput extends LitElement {
     if (dateFrom) {
       if (this.noRange) {
         this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: dateFrom } }));
+        this._valuesHadChanged = false;
       } else {
         const dateTo = this.shadowRoot.querySelector('#date-to-input').getDate();
         if (dateTo) {
@@ -231,11 +232,15 @@ class LitDatepickerWritableInput extends LitElement {
           } else {
             this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: dateFrom } }));
             this.dispatchEvent(new CustomEvent('date-to-changed', { detail: { value: dateTo } }));
+            this._valuesHadChanged = false;
           }
         }
       }
-      this._valuesHadChanged = false;
     }
+  }
+
+  clearError() {
+    this.shadowRoot.querySelector('#date-to-input').clearError();
   }
 }
 

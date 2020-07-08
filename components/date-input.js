@@ -226,7 +226,7 @@ class LitDatepickerDateInput extends localize(LitElement) {
   keypress(event) {
     event.preventDefault();
     const { currentTarget } = event;
-    this._clearError(currentTarget);
+    this.clearError(currentTarget);
     if (!currentTarget.currentChar) {
       currentTarget.currentChar = 1;
     }
@@ -278,9 +278,9 @@ class LitDatepickerDateInput extends localize(LitElement) {
   }
 
   clear() {
-    this._clearError(this.shadowRoot.querySelector('.day'));
-    this._clearError(this.shadowRoot.querySelector('.month'));
-    this._clearError(this.shadowRoot.querySelector('.year'));
+    this.clearError(this.shadowRoot.querySelector('.day'));
+    this.clearError(this.shadowRoot.querySelector('.month'));
+    this.clearError(this.shadowRoot.querySelector('.year'));
     this._refreshDayMonthYear('00/00/0000');
     setTimeout(() => { this._refreshDayMonthYear(this.date); });
   }
@@ -369,8 +369,10 @@ class LitDatepickerDateInput extends localize(LitElement) {
     return date;
   }
 
-  _clearError(element) {
-    element.classList.remove('error');
+  clearError(element) {
+    if (element) {
+      element.classList.remove('error');
+    }
     this.shadowRoot.querySelector('.date-input').classList.remove('error');
     this.error = null;
   }
