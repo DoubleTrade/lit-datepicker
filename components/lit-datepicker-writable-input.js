@@ -240,7 +240,10 @@ class LitDatepickerWritableInput extends LitElement {
   }
 
   clearError() {
-    this.shadowRoot.querySelector('#date-to-input').clearError();
+    const dateToInput = this.shadowRoot.querySelector('#date-to-input');
+    if (dateToInput) {
+      dateToInput.clearError();
+    }
   }
 }
 

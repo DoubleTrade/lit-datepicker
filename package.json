@@ -10,7 +10,7 @@
   "name": "@doubletrade/lit-datepicker",
   "main": "lit-datepicker.js",
   "author": "Julien Rousseau <RoXuS>",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "devDependencies": {
     "babel-eslint": "10.0.3",
     "eslint": "6.3.0",
