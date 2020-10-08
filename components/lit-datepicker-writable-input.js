@@ -95,7 +95,7 @@ class LitDatepickerWritableInput extends LitElement {
         left: 0px;
         font-weight: 400;
         font-size: 13px;
-        font-family: "Roboto Noto sans-serif";
+        font-family: "Roboto";
         line-height: 15px;
         overflow: hidden;
         white-space: no-wrap;
