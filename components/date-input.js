@@ -154,21 +154,21 @@ class LitDatepickerDateInput extends localize(LitElement) {
   render() {
     return html`
       <div class="date-input ${this.outline ? 'outline' : ''}">
-        <input class="day" tabindex=1 max="31" min="1"  
-        @keydown=${this.keypress.bind(this)} @focus=${this.selectAll.bind(this)} 
-        @select=${this.selectAll.bind(this)} @tap=${this.selectAll.bind(this)}
+        <input class="day" tabindex=1 max="31" min="1"
+        @keydown=${this.keypress.bind(this)} @focus=${this.selectAll.bind(this)}
+        @tap=${this.selectAll.bind(this)}
         @focusout=${this.focusout.bind(this)}
         .value=${this._day} />
         <div class="date-separator"></div>
-        <input class="month" tabindex=2 max="12" min="1"  
-        @keydown=${this.keypress.bind(this)} @focus=${this.selectAll.bind(this)} 
-        @select=${this.selectAll.bind(this)} @tap=${this.selectAll.bind(this)}
+        <input class="month" tabindex=2 max="12" min="1"
+        @keydown=${this.keypress.bind(this)} @focus=${this.selectAll.bind(this)}
+        @tap=${this.selectAll.bind(this)}
         @focusout=${this.focusout.bind(this)}
         .value=${this._month} />
         <div class="date-separator"></div>
-        <input class="year" tabindex=3 max="2100" min="1970" 
-        @keydown=${this.keypress.bind(this)} @focus=${this.selectAll.bind(this)} 
-        @select=${this.selectAll.bind(this)} @tap=${this.selectAll.bind(this)}
+        <input class="year" tabindex=3 max="2100" min="1970"
+        @keydown=${this.keypress.bind(this)} @focus=${this.selectAll.bind(this)}
+        @tap=${this.selectAll.bind(this)}
         @focusout=${this.focusout.bind(this)}
         .value=${this._year} />
       </div>
