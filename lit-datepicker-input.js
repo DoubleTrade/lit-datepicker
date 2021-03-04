@@ -163,7 +163,7 @@ class LitDatepickerInput extends LitDatepickerBehavior(LitElement) {
       }
 
       iron-dropdown {
-        background: white;
+        background: var(--lit-datepicker-dropdown-background-color, white);
       }
 
       paper-material {

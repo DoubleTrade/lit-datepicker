@@ -104,10 +104,10 @@ class LitDatepickerWritableInput extends LitElement {
       }
 
       .outline:hover label {
-        color: black;
+        color: var(--lit-datepicker-outline-hover-color, black);
       }
       .outline:hover {
-        border-color: black;
+        border-color: var(--lit-datepicker-outline-hover-border-color, black);
       }
 
       .outline {

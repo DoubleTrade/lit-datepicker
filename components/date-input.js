@@ -147,6 +147,10 @@ class LitDatepickerDateInput extends localize(LitElement) {
       .outline.date-input input {
         border-bottom: none;
       }
+
+      input {
+        color: var(--lit-datepicker-input-color);
+      }
       `;
     return [ironFlexLayoutTheme, ironFlexLayoutAlignTheme, mainStyle];
   }
