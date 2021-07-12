@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 
 import format from 'date-fns/esm/format';
 import parse from 'date-fns/esm/parse';

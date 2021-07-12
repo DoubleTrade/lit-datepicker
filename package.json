@@ -15,8 +15,7 @@
     "babel-eslint": "10.0.3",
     "eslint": "6.3.0",
     "eslint-config-airbnb-base": "14.0.0",
-    "eslint-plugin-import": "2.18.2",
-    "polymer-cli": "1.9.11"
+    "eslint-plugin-import": "2.18.2"
   },
   "scripts": {
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
@@ -42,8 +41,7 @@
     "@polymer/paper-material": "^3.0.0",
     "@polymer/paper-styles": "^3.0.1",
     "date-fns": "2.0.0",
-    "lit-element": "^2.4.0",
-    "lit-html": "1.4.1",
+    "lit": "2.0.0-rc.2",
     "web-animations-js": "2.3.1"
   },
   "repository": {

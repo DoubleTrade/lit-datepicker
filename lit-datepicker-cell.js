@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 import startOfDay from 'date-fns/esm/startOfDay';
 import getTime from 'date-fns/esm/getTime';
 import { ironFlexLayoutAlignTheme, ironFlexLayoutTheme } from './iron-flex-import';

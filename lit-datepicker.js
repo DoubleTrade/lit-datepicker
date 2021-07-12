@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 import { ironFlexLayoutAlignTheme, ironFlexLayoutTheme } from './iron-flex-import';
 import LitDatepickerBehavior from './lit-datepicker-behavior';
 import './lit-datepicker-calendar';

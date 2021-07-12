@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 
 import '@polymer/paper-material/paper-material';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes';
