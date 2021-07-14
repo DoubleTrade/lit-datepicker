@@ -97,10 +97,13 @@ class LitDatepickerWritableInput extends LitElement {
         font-size: 13px;
         font-family: "Roboto";
         line-height: 15px;
-        overflow: hidden;
-        white-space: no-wrap;
         text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         color: var(--paper-input-container-color, var(--secondary-text-color));
+        max-width: 80%;
+        padding-left: 0;
+        padding-right: 0;
       }
 
       .outline:hover label {
@@ -120,7 +123,8 @@ class LitDatepickerWritableInput extends LitElement {
         background-color: var(--input-outlined-background-color, white);
         top: -8px;
         left: 15px;
-        padding: 0 6px
+        padding-left: 4px;
+        padding-right: 4px;
       }
 
       paper-icon-button.action:hover {
